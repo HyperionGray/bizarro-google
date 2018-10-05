@@ -10,11 +10,12 @@ if __name__ == "__main__":
     
     f = open("final_results.jl")
     if argv[1] == "searchurl":
-        search_term = argv[2]
+        search_term = argv[2].strip()
         for line in f:
             _url = list(json.loads(line.strip()).keys())[0]
             if search_term in _url:
                 split_url = _url.split(search_term)
+                print(_url)
 
     elif argv[1] == "searchbody":
         search_term = argv[2]
