@@ -1,10 +1,12 @@
 import grequests
 import json
+import re
 
 def exception_handler(request, exception):
     print("Request failed")
+    print(req.url)
 
-links_filename = "top-10000.csv"
+links_filename = "top-1m.csv"
 links = open(links_filename)
 
 robots_filename = "robots_results.txt"
@@ -16,7 +18,7 @@ links.close()
 
 links = open(links_filename)
 
-reqs = grequests.imap((grequests.get("http://" + link.split(",")[1].strip() + "/robots.txt", timeout=0.2, allow_redirects=True, stream = False) for link in links), size=20)
+reqs = grequests.imap((grequests.get("http://" + link.split(",")[1].strip() + "/robots.txt", timeout=0.2, allow_redirects=True, stream = False) for link in links), size=50)
 
 f = open(robots_filename, "a")
 c = 0
@@ -37,7 +39,8 @@ for req in reqs:
             print("=============Finished %s of robots requests out of %s============" % (str(c), str(hosts_num_lines)))
 
     except:
-        print("Failed on %s" % req.text)
+        print("Failed on %s" % req.url)
+        traceback.print_exc()
             
 f.close()
 print("Finished robots requests...")
