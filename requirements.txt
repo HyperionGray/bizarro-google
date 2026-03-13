@@ -1,1 +1,3 @@
+formasaurus
 grequests
+tabulate
